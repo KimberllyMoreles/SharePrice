@@ -1,0 +1,51 @@
+﻿CREATE TABLE usuario(
+	usuario VARCHAR(20),
+	senha VARCHAR(20),
+	nome VARCHAR(50),
+	tipo_usuario CHAR,
+	PRIMARY KEY(usuario, senha)
+);
+
+INSERT INTO usuario VALUES ('kimberllyRM', 'kim123', 'Kimberlly da Rosa Moreles', 'S');
+INSERT INTO usuario VALUES ('kimberllyRM', 'kim', 'Kimberlly da Rosa Moreles', 'C');
+
+CREATE TABLE marca(
+	idmarca SERIAL PRIMARY KEY,
+	nome VARCHAR(60) NOT NULL,
+	data_exclusao DATE
+);
+
+CREATE TABLE genero(
+	idgenero SERIAL PRIMARY KEY,
+	nome VARCHAR(60) NOT NULL,
+	data_exclusao DATE
+);
+
+CREATE TABLE estabelecimento(
+	idestabelecimento SERIAL PRIMARY KEY,
+	nome VARCHAR(60) NOT NULL,
+	endereco VARCHAR(60),
+	telefone VARCHAR(12),
+	data_exclusao DATE
+);
+
+CREATE TABLE Produto(
+	idProd SERIAL PRIMARY KEY,
+	nomeProd VARCHAR(60) NOT NULL,
+	idgenero INTEGER NOT NULL,
+	idmarca INTEGER NOT NULL,
+	data_exclusao DATE,
+	FOREIGN KEY (idgenero) REFERENCES genero (idgenero),
+	FOREIGN KEY (idmarca) REFERENCES marca (idmarca)
+);
+
+CREATE TABLE ProdEst (
+	idestabelecimento INTEGER NOT NULL,
+	idProd INTEGER NOT NULL,
+	preco NUMERIC(9,2) NOT NULL,
+	data DATE NOT NULL,
+	data_exclusao DATE,
+	PRIMARY KEY (idProd, idestabelecimento, data),
+	FOREIGN KEY(idProd) REFERENCES Produto (idProd),
+	FOREIGN KEY(idestabelecimento) REFERENCES estabelecimento (idestabelecimento)
+);
